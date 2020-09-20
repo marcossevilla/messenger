@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/card_input_field.dart';
+import '../widgets/logo.dart';
+import '../widgets/terms_conditions.dart';
+
 class LoginScreen extends StatelessWidget {
   static const String route = 'login';
 
@@ -13,31 +17,13 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const _Logo(),
+            const Logo(),
             const _Form(),
             const _Labels(),
-            const _Terms(),
+            const Terms(),
           ],
         ),
       ),
-    );
-  }
-}
-
-class _Terms extends StatelessWidget {
-  const _Terms({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FlatButton(
-      child: Text(
-        'Terms & Conditions',
-        style: TextStyle(
-          color: Theme.of(context).primaryColor,
-          fontSize: 18,
-        ),
-      ),
-      onPressed: () {},
     );
   }
 }
@@ -76,41 +62,37 @@ class _Form extends StatefulWidget {
 }
 
 class __FormState extends State<_Form> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const TextField(),
-        const TextField(),
-        RaisedButton(
-          onPressed: () {},
-          child: const Text('Go'),
-        ),
-      ],
-    );
-  }
-}
-
-class _Logo extends StatelessWidget {
-  const _Logo({Key key}) : super(key: key);
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Icon(
-          Icons.message,
-          size: 70,
-          color: Theme.of(context).primaryColor,
-        ),
-        Text(
-          'Messenger',
-          style: Theme.of(context).textTheme.headline4,
-          textAlign: TextAlign.center,
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: Column(
+        children: [
+          CardInputField(
+            icon: Icons.mail,
+            placeholder: 'Email',
+            controller: _emailController,
+            type: TextInputType.emailAddress,
+          ),
+          const SizedBox(height: 10),
+          CardInputField(
+            icon: Icons.lock,
+            placeholder: 'Password',
+            controller: _passwordController,
+            isPassword: true,
+          ),
+          const SizedBox(height: 12),
+
+          // TODO: Make cooler button
+          RaisedButton(
+            child: const Text('Go'),
+            onPressed: () {},
+          ),
+        ],
+      ),
     );
   }
 }
