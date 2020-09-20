@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
-import 'ui/routes.dart';
+import 'ui/router.dart';
 
 class MessengerApp extends StatelessWidget {
   static const String name = 'Messenger';
@@ -14,8 +14,8 @@ class MessengerApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.oswaldTextTheme(),
       ),
-      routes: Routes.routes,
-      initialRoute: Routes.login,
+      routes: Router.routes,
+      initialRoute: Router.login,
     );
   }
 }
