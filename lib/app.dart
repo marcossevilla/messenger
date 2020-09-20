@@ -21,6 +21,7 @@ class MessengerApp extends StatelessWidget {
       ),
       routes: Router.routes,
       initialRoute: Router.login,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

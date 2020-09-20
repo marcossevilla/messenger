@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:messenger/app.dart';
+import 'package:messenger/ui/screens/register.dart';
 
 import '../widgets/app_button.dart';
 import '../widgets/app_input_field.dart';
+import '../widgets/labels.dart';
 import '../widgets/logo.dart';
 import '../widgets/terms_conditions.dart';
 
@@ -13,7 +16,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF2F2F2),
+      backgroundColor: Colors.grey.shade200,
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -23,41 +26,15 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Logo(),
+                const Logo(label: MessengerApp.name),
                 const _Form(),
-                const _Labels(),
+                Labels(route: RegisterScreen.go()),
                 const Terms(),
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-}
-
-class _Labels extends StatelessWidget {
-  const _Labels({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          "Don't have account?",
-          style: Theme.of(context).textTheme.button,
-        ),
-        FlatButton(
-          child: Text(
-            'Create one!',
-            style: TextStyle(
-              color: Theme.of(context).primaryColor,
-              fontSize: 18,
-            ),
-          ),
-          onPressed: () {},
-        ),
-      ],
     );
   }
 }
