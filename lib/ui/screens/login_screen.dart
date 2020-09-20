@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/card_input_field.dart';
+import '../widgets/app_button.dart';
+import '../widgets/app_input_field.dart';
 import '../widgets/logo.dart';
 import '../widgets/terms_conditions.dart';
 
@@ -70,25 +71,24 @@ class __FormState extends State<_Form> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          CardInputField(
+          AppField(
             icon: Icons.mail,
             placeholder: 'Email',
             controller: _emailController,
             type: TextInputType.emailAddress,
           ),
           const SizedBox(height: 10),
-          CardInputField(
+          AppField(
             icon: Icons.lock,
             placeholder: 'Password',
             controller: _passwordController,
             isPassword: true,
           ),
-          const SizedBox(height: 12),
-
-          // TODO: Make cooler button
-          RaisedButton(
-            child: const Text('Go'),
+          const SizedBox(height: 20),
+          AppButton(
+            label: 'Go',
             onPressed: () {},
           ),
         ],

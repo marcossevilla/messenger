@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CardInputField extends StatelessWidget {
-  const CardInputField({
+class AppField extends StatelessWidget {
+  const AppField({
     Key key,
     @required this.icon,
     @required this.controller,
@@ -21,9 +21,7 @@ class CardInputField extends StatelessWidget {
     return Card(
       elevation: 5,
       shadowColor: Colors.grey.shade100,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30),
-      ),
+      shape: const StadiumBorder(),
       child: Padding(
         padding: const EdgeInsets.all(5),
         child: TextField(
