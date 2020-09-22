@@ -31,7 +31,7 @@ class RegisterScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const Logo(label: 'Register'),
+              const Logo(label: RegisterScreen.route),
               const _Form(),
               const Terms(),
             ],
