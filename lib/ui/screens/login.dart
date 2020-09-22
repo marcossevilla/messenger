@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:messenger/app.dart';
-import 'package:messenger/ui/screens/register.dart';
 
+import '../../app.dart';
 import '../widgets/app_button.dart';
 import '../widgets/app_input_field.dart';
 import '../widgets/labels.dart';
 import '../widgets/logo.dart';
 import '../widgets/terms_conditions.dart';
+import 'register.dart';
 
 class LoginScreen extends StatelessWidget {
   static const String route = 'login';
