@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:messenger/models/user.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import '../../models/user.dart';
 
 class UsersScreen extends StatefulWidget {
   static const String route = 'users';
@@ -11,6 +13,8 @@ class UsersScreen extends StatefulWidget {
 }
 
 class _UsersScreenState extends State<UsersScreen> {
+  final _refreshController = RefreshController(initialRefresh: false);
+
   final users = <User>[
     User(uid: '1', name: 'Majo', email: 'majo@gmail.com', online: true),
     User(uid: '2', name: 'Mafe', email: 'mafe@gmail.com', online: true),
@@ -42,23 +46,55 @@ class _UsersScreenState extends State<UsersScreen> {
           // Icon(Icons.check_circle, color: Colors.red,),
         ],
       ),
-      body: ListView.separated(
-        physics: const BouncingScrollPhysics(),
-        itemCount: users.length,
-        separatorBuilder: (_, __) => const Divider(),
-        itemBuilder: (context, index) {
-          final user = users[index];
+      body: SmartRefresher(
+        controller: _refreshController,
+        enablePullDown: true,
+        onRefresh: _loadUsers,
+        child: _UserList(users: users),
+      ),
+    );
+  }
 
-          return ListTile(
-            title: Text(user.name),
-            enabled: user.online,
-            leading: CircleAvatar(child: Text(user.name.substring(0, 2))),
-            trailing: CircleAvatar(
-              radius: 5,
-              backgroundColor: user.online ? Colors.green : Colors.red,
-            ),
-          );
-        },
+  void _loadUsers() async {
+    await Future.delayed(const Duration(seconds: 1));
+    _refreshController.refreshCompleted();
+  }
+}
+
+class _UserList extends StatelessWidget {
+  const _UserList({Key key, @required this.users}) : super(key: key);
+
+  final List<User> users;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      physics: const BouncingScrollPhysics(),
+      itemCount: users.length,
+      separatorBuilder: (_, __) => const Divider(),
+      itemBuilder: (context, index) => _UserTile(user: users[index]),
+    );
+  }
+}
+
+class _UserTile extends StatelessWidget {
+  const _UserTile({Key key, @required this.user}) : super(key: key);
+
+  final User user;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(user.name),
+      subtitle: Text(user.email),
+      enabled: user.online,
+      leading: CircleAvatar(
+        child: Text(user.name.substring(0, 2)),
+        backgroundColor: Colors.blue.shade100,
+      ),
+      trailing: CircleAvatar(
+        radius: 5,
+        backgroundColor: user.online ? Colors.green : Colors.red,
       ),
     );
   }
