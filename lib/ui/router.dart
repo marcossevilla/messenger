@@ -8,6 +8,10 @@ import 'screens/users.dart';
 
 class Router {
   static const String login = LoginScreen.route;
+  static const String chat = ChatScreen.route;
+  static const String loading = LoadingScreen.route;
+  static const String register = RegisterScreen.route;
+  static const String users = UsersScreen.route;
 
   static Map routes = <String, WidgetBuilder>{
     ChatScreen.route: (_) => ChatScreen(),

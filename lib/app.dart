@@ -20,7 +20,7 @@ class MessengerApp extends StatelessWidget {
         textTheme: GoogleFonts.oswaldTextTheme(),
       ),
       routes: Router.routes,
-      initialRoute: Router.login,
+      initialRoute: Router.users,
       debugShowCheckedModeBanner: false,
     );
   }
