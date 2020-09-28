@@ -68,12 +68,13 @@ class __ChatInputState extends State<_ChatInput> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 100,
-      child: SafeArea(
+    return SafeArea(
+      child: SizedBox(
+        height: 60,
         child: Padding(
           padding: const EdgeInsets.only(left: 15, right: 10),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Flexible(
                 child: TextField(
