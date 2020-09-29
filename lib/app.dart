@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:google_fonts/google_fonts.dart';
-
 import 'ui/router.dart';
 
 class MessengerApp extends StatelessWidget {
@@ -16,9 +14,6 @@ class MessengerApp extends StatelessWidget {
 
     return MaterialApp(
       title: name,
-      theme: ThemeData(
-        textTheme: GoogleFonts.oswaldTextTheme(),
-      ),
       routes: Router.routes,
       initialRoute: Router.chat,
       debugShowCheckedModeBanner: false,
