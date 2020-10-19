@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:messenger/services/auth_service.dart';
+
+import 'package:provider/provider.dart';
 
 import '../../app.dart';
 import '../widgets/app_button.dart';
@@ -73,7 +76,12 @@ class __FormState extends State<_Form> {
           const SizedBox(height: 20),
           AppButton(
             label: 'Go',
-            onPressed: () {},
+            onPressed: () {
+              context.read<AuthService>().login(
+                    _emailController.text,
+                    _passwordController.text,
+                  );
+            },
           ),
         ],
       ),
