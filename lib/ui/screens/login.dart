@@ -55,6 +55,8 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final loading = context.select((AuthService service) => service.loading);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Column(
@@ -76,15 +78,19 @@ class __FormState extends State<_Form> {
           const SizedBox(height: 20),
           AppButton(
             label: 'Go',
-            onPressed: () {
-              context.read<AuthService>().login(
-                    _emailController.text,
-                    _passwordController.text,
-                  );
-            },
+            onPressed: loading ? null : submit,
           ),
         ],
       ),
     );
+  }
+
+  void submit() {
+    FocusScope.of(context).unfocus();
+
+    context.read<AuthService>().login(
+          _emailController.text.trim(),
+          _passwordController.text.trim(),
+        );
   }
 }
