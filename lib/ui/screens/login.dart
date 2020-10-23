@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:messenger/services/auth_service.dart';
 
 import 'package:provider/provider.dart';
 
 import '../../app.dart';
+import '../../services/auth_service.dart';
 import '../widgets/app_button.dart';
 import '../widgets/app_input_field.dart';
 import '../widgets/labels.dart';
@@ -76,10 +76,7 @@ class __FormState extends State<_Form> {
             isPassword: true,
           ),
           const SizedBox(height: 20),
-          AppButton(
-            label: 'Go',
-            onPressed: loading ? null : submit,
-          ),
+          AppButton(label: 'Go', onPressed: loading ? null : submit),
         ],
       ),
     );
