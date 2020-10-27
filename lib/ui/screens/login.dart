@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../app.dart';
 import '../../services/auth_service.dart';
 import '../widgets/app_button.dart';
+import '../widgets/app_dialog.dart';
 import '../widgets/app_input_field.dart';
 import '../widgets/labels.dart';
 import '../widgets/logo.dart';
@@ -82,12 +83,24 @@ class __FormState extends State<_Form> {
     );
   }
 
-  void submit() {
+  void submit() async {
     FocusScope.of(context).unfocus();
 
-    context.read<AuthService>().login(
+    final authenticated = await context.read<AuthService>().login(
           _emailController.text.trim(),
           _passwordController.text.trim(),
         );
+
+    if (authenticated) {
+      // TODO: Navigate to home screen
+    } else {
+      await showDialog(
+        context: context,
+        builder: (_) => const AppDialog(
+          title: 'Login failed',
+          content: 'Check your credentials',
+        ),
+      );
+    }
   }
 }

@@ -18,7 +18,7 @@ class AuthService with ChangeNotifier {
     notifyListeners();
   }
 
-  Future login(String email, String password) async {
+  Future<bool> login(String email, String password) async {
     final data = {
       'email': email,
       'password': password,
@@ -32,16 +32,20 @@ class AuthService with ChangeNotifier {
       headers: {'Content-Type': 'application/json'},
     );
 
+    loading = false;
+
     switch (response.statusCode) {
       case 200:
         final loginResponse = loginResponseFromJson(response.body);
         user = loginResponse.user;
-        print(user.toJson());
+
+        // TODO: guardar token en lugar seguro
+
+        return true;
         break;
       default:
+        return false;
         break;
     }
-
-    loading = false;
   }
 }
