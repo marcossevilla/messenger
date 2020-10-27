@@ -11,6 +11,7 @@ import '../widgets/labels.dart';
 import '../widgets/logo.dart';
 import '../widgets/terms_conditions.dart';
 import 'register.dart';
+import 'users.dart';
 
 class LoginScreen extends StatelessWidget {
   static const String route = 'login';
@@ -92,7 +93,8 @@ class __FormState extends State<_Form> {
         );
 
     if (authenticated) {
-      // TODO: Navigate to home screen
+      // TODO: Connect to socket server
+      await Navigator.of(context).pushReplacement(UsersScreen.go());
     } else {
       await showDialog(
         context: context,
