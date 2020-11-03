@@ -33,7 +33,7 @@ class LoginScreen extends StatelessWidget {
               children: [
                 const Logo(label: MessengerApp.name),
                 const _Form(),
-                Labels(route: RegisterScreen.go()),
+                const Labels(),
                 const Terms(),
               ],
             ),
