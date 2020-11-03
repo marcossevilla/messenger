@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:messenger/ui/screens/register.dart';
 
 class Labels extends StatelessWidget {
   const Labels({Key key, this.route}) : super(key: key);
@@ -21,7 +22,7 @@ class Labels extends StatelessWidget {
               fontSize: 18,
             ),
           ),
-          onPressed: () => Navigator.of(context).push(route),
+          onPressed: () => Navigator.of(context).push(RegisterScreen.go()),
         ),
       ],
     );

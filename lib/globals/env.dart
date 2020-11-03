@@ -6,7 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Environment {
   /// Load all the .env variables to DotEnv instance
-  static void init() async {
+  static Future<void> init() async {
     _instance = DotEnv();
     await _instance.load('.env');
   }

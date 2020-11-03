@@ -11,9 +11,7 @@ class MessengerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp],
-    );
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     return MultiProvider(
       providers: [
@@ -21,8 +19,8 @@ class MessengerApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: name,
-        routes: Router.routes,
         initialRoute: Router.login,
+        routes: Router.routes,
         debugShowCheckedModeBanner: false,
       ),
     );

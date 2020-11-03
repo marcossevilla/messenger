@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:messenger/services/auth_service.dart';
+import 'package:messenger/ui/screens/users.dart';
+import 'package:messenger/ui/widgets/app_dialog.dart';
+
+import 'package:provider/provider.dart';
 
 import '../widgets/app_button.dart';
 import '../widgets/app_input_field.dart';
@@ -9,9 +14,7 @@ class RegisterScreen extends StatelessWidget {
   static const String route = 'register';
 
   static Route go() {
-    return MaterialPageRoute<void>(
-      builder: (_) => RegisterScreen(),
-    );
+    return MaterialPageRoute<void>(builder: (_) => RegisterScreen());
   }
 
   @override
@@ -56,6 +59,8 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final loading = context.select((AuthService bloc) => bloc.loading);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Column(
@@ -81,12 +86,28 @@ class __FormState extends State<_Form> {
             isPassword: true,
           ),
           const SizedBox(height: 20),
-          AppButton(
-            label: 'Go',
-            onPressed: () {},
-          ),
+          AppButton(label: 'Go', onPressed: loading ? null : submit),
         ],
       ),
     );
+  }
+
+  void submit() async {
+    final result = await context.read<AuthService>().register(
+          _nameController.text.trim(),
+          _emailController.text.trim(),
+          _passwordController.text.trim(),
+        );
+
+    if (result is bool) {
+      if (result) {
+        await Navigator.of(context).pushReplacement(UsersScreen.go());
+      }
+    } else {
+      await showDialog(
+        context: context,
+        builder: (_) => AppDialog(title: 'Register error', content: result),
+      );
+    }
   }
 }

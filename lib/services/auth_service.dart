@@ -21,6 +21,37 @@ class AuthService with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<Object> register(String name, String email, String password) async {
+    final data = {
+      'name': name,
+      'email': email,
+      'password': password,
+    };
+
+    loading = true;
+
+    final response = await http.post(
+      '${Environment.apiURL}/login/new',
+      body: json.encode(data),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    loading = false;
+
+    switch (response.statusCode) {
+      case 200:
+        final loginResponse = loginResponseFromJson(response.body);
+        user = loginResponse.user;
+        await _saveToken(loginResponse.token);
+        return true;
+        break;
+      default:
+        final body = json.decode(response.body);
+        return body['message'];
+        break;
+    }
+  }
+
   Future<bool> login(String email, String password) async {
     final data = {
       'email': email,
@@ -41,7 +72,6 @@ class AuthService with ChangeNotifier {
       case 200:
         final loginResponse = loginResponseFromJson(response.body);
         user = loginResponse.user;
-
         await _saveToken(loginResponse.token);
 
         return true;

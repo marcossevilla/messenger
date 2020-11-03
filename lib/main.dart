@@ -3,8 +3,8 @@ import 'package:messenger/globals/env.dart';
 
 import 'app.dart';
 
-void main() {
-  Environment.init();
-
+void main() async {
+  /// initialize environment variables used in the app
+  await Environment.init();
   runApp(MessengerApp());
 }
