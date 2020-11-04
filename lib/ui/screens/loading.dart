@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
+import '../../services/auth_service.dart';
+import 'login.dart';
+import 'users.dart';
+
 class LoadingScreen extends StatelessWidget {
   static const String route = 'loading';
 
@@ -7,10 +13,30 @@ class LoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('This is LoadingScreen'),
+    return Scaffold(
+      body: FutureBuilder(
+        future: _checkLoginState(context),
+        builder: (context, snapshot) {
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 50),
+              child: LinearProgressIndicator(),
+            ),
+          );
+        },
       ),
     );
+  }
+
+  Future _checkLoginState(BuildContext context) async {
+    final auth = Provider.of<AuthService>(context, listen: false);
+    final loggedIn = await auth.isLoggedIn();
+
+    if (loggedIn) {
+      // TODO: Connect to socket server
+      await Navigator.of(context).pushReplacement(UsersScreen.go());
+    } else {
+      await Navigator.of(context).pushReplacement(LoginScreen.go());
+    }
   }
 }

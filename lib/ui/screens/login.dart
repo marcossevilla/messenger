@@ -10,7 +10,6 @@ import '../widgets/app_input_field.dart';
 import '../widgets/labels.dart';
 import '../widgets/logo.dart';
 import '../widgets/terms_conditions.dart';
-import 'register.dart';
 import 'users.dart';
 
 class LoginScreen extends StatelessWidget {

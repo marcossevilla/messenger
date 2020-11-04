@@ -19,7 +19,7 @@ class MessengerApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: name,
-        initialRoute: Router.login,
+        initialRoute: Router.loading,
         routes: Router.routes,
         debugShowCheckedModeBanner: false,
       ),
