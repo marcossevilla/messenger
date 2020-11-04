@@ -29,6 +29,7 @@ class LoadingScreen extends StatelessWidget {
   }
 
   Future _checkLoginState(BuildContext context) async {
+    // tried using `read` but doesn't work with FutureBuilder apparently
     final auth = Provider.of<AuthService>(context, listen: false);
     final loggedIn = await auth.isLoggedIn();
 

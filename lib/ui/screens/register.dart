@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:messenger/services/auth_service.dart';
-import 'package:messenger/ui/screens/users.dart';
-import 'package:messenger/ui/widgets/app_dialog.dart';
 
 import 'package:provider/provider.dart';
 
+import '../../services/auth_service.dart';
 import '../widgets/app_button.dart';
+import '../widgets/app_dialog.dart';
 import '../widgets/app_input_field.dart';
 import '../widgets/logo.dart';
 import '../widgets/terms_conditions.dart';
+import 'users.dart';
 
 class RegisterScreen extends StatelessWidget {
   static const String route = 'register';

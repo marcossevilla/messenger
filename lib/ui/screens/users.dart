@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../models/user.dart';
+import '../../services/auth_service.dart';
+import 'login.dart';
 
 class UsersScreen extends StatefulWidget {
   static const String route = 'users';
@@ -24,6 +28,8 @@ class _UsersScreenState extends State<UsersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final name = context.select((AuthService auth) => auth.user.name);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -32,12 +38,13 @@ class _UsersScreenState extends State<UsersScreen> {
         backgroundColor: Colors.white,
         leading: IconButton(
           icon: const Icon(Icons.exit_to_app),
-          onPressed: () {},
+          onPressed: () async {
+            // TODO: Disconnect from socket server
+            await AuthService.deleteToken();
+            await Navigator.of(context).pushReplacement(LoginScreen.go());
+          },
         ),
-        title: const Text(
-          'Marcos',
-          style: TextStyle(color: Colors.black87),
-        ),
+        title: Text(name, style: const TextStyle(color: Colors.black87)),
         actions: [
           const Padding(
             padding: EdgeInsets.only(right: 10),
