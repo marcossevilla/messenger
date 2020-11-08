@@ -9,7 +9,7 @@ import '../globals/env.dart';
 import '../models/login_response.dart';
 import '../models/user.dart';
 
-class AuthService with ChangeNotifier {
+class AuthBloc with ChangeNotifier {
   User user;
 
   final _storage = const FlutterSecureStorage();

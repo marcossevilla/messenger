@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
 
-import 'services/auth_service.dart';
+import 'blocs/auth_bloc.dart';
+import 'blocs/socket_bloc.dart';
 import 'ui/router.dart';
 
 class MessengerApp extends StatelessWidget {
@@ -15,7 +16,8 @@ class MessengerApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AuthService()),
+        ChangeNotifierProvider(create: (_) => AuthBloc()),
+        ChangeNotifierProvider(create: (_) => SocketBloc()),
       ],
       child: MaterialApp(
         title: name,

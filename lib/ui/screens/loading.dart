@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import '../../services/auth_service.dart';
+import '../../blocs/auth_bloc.dart';
 import 'login.dart';
 import 'users.dart';
 
@@ -30,7 +30,7 @@ class LoadingScreen extends StatelessWidget {
 
   Future _checkLoginState(BuildContext context) async {
     // tried using `read` but doesn't work with FutureBuilder apparently
-    final auth = Provider.of<AuthService>(context, listen: false);
+    final auth = Provider.of<AuthBloc>(context, listen: false);
     final loggedIn = await auth.isLoggedIn();
 
     if (loggedIn) {

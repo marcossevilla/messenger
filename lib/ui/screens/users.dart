@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../blocs/auth_bloc.dart';
 import '../../models/user.dart';
-import '../../services/auth_service.dart';
 import 'login.dart';
 
 class UsersScreen extends StatefulWidget {
@@ -28,7 +28,7 @@ class _UsersScreenState extends State<UsersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final name = context.select((AuthService auth) => auth.user.name);
+    final name = context.select((AuthBloc auth) => auth.user.name);
 
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +40,7 @@ class _UsersScreenState extends State<UsersScreen> {
           icon: const Icon(Icons.exit_to_app),
           onPressed: () async {
             // TODO: Disconnect from socket server
-            await AuthService.deleteToken();
+            await AuthBloc.deleteToken();
             await Navigator.of(context).pushReplacement(LoginScreen.go());
           },
         ),

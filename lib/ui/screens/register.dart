@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import '../../services/auth_service.dart';
+import '../../blocs/auth_bloc.dart';
 import '../widgets/app_button.dart';
 import '../widgets/app_dialog.dart';
 import '../widgets/app_input_field.dart';
@@ -59,7 +59,7 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
-    final loading = context.select((AuthService bloc) => bloc.loading);
+    final loading = context.select((AuthBloc bloc) => bloc.loading);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -93,7 +93,7 @@ class __FormState extends State<_Form> {
   }
 
   void submit() async {
-    final result = await context.read<AuthService>().register(
+    final result = await context.read<AuthBloc>().register(
           _nameController.text.trim(),
           _emailController.text.trim(),
           _passwordController.text.trim(),
