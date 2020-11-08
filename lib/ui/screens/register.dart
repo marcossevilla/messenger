@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:messenger/blocs/socket_bloc.dart';
 
 import 'package:provider/provider.dart';
 
@@ -101,6 +102,7 @@ class __FormState extends State<_Form> {
 
     if (result is bool) {
       if (result) {
+        context.read<SocketBloc>().connect();
         await Navigator.of(context).pushReplacement(UsersScreen.go());
       }
     } else {

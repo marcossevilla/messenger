@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:messenger/blocs/socket_bloc.dart';
 
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -28,6 +29,8 @@ class _UsersScreenState extends State<UsersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final socket = context.watch<SocketBloc>();
+
     final name = context.select((AuthBloc auth) => auth.user.name);
 
     return Scaffold(
@@ -39,18 +42,20 @@ class _UsersScreenState extends State<UsersScreen> {
         leading: IconButton(
           icon: const Icon(Icons.exit_to_app),
           onPressed: () async {
-            // TODO: Disconnect from socket server
-            await AuthBloc.deleteToken();
+            context.read<SocketBloc>().disconnect();
             await Navigator.of(context).pushReplacement(LoginScreen.go());
+            await AuthBloc.deleteToken();
           },
         ),
         title: Text(name, style: const TextStyle(color: Colors.black87)),
         actions: [
-          const Padding(
-            padding: EdgeInsets.only(right: 10),
-            child: Icon(Icons.check_circle, color: Colors.green),
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: Icon(
+              socket.isConnected ? Icons.check_circle : Icons.warning,
+              color: socket.isConnected ? Colors.green : Colors.red,
+            ),
           ),
-          // Icon(Icons.check_circle, color: Colors.red,),
         ],
       ),
       body: SmartRefresher(
@@ -100,8 +105,8 @@ class _UserTile extends StatelessWidget {
         child: Text(user.name.substring(0, 2)),
         backgroundColor: Colors.blue.shade100,
       ),
-      trailing: CircleAvatar(
-        radius: 5,
+      trailing: Chip(
+        label: Text(user.online ? 'Online' : 'Offline'),
         backgroundColor: user.online ? Colors.green : Colors.red,
       ),
     );

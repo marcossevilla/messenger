@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../app.dart';
 import '../../blocs/auth_bloc.dart';
+import '../../blocs/socket_bloc.dart';
 import '../widgets/app_button.dart';
 import '../widgets/app_dialog.dart';
 import '../widgets/app_input_field.dart';
@@ -92,7 +93,7 @@ class __FormState extends State<_Form> {
         );
 
     if (authenticated) {
-      // TODO: Connect to socket server
+      context.read<SocketBloc>().connect();
       await Navigator.of(context).pushReplacement(UsersScreen.go());
     } else {
       await showDialog(
