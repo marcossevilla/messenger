@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:messenger/blocs/socket_bloc.dart';
+import 'package:messenger/blocs/users_bloc.dart';
 
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -18,14 +19,14 @@ class UsersScreen extends StatefulWidget {
 }
 
 class _UsersScreenState extends State<UsersScreen> {
+  var users = <User>[];
   final _refreshController = RefreshController(initialRefresh: false);
 
-  final users = <User>[
-    User(uid: '1', name: 'Majo', email: 'majo@gmail.com', online: true),
-    User(uid: '2', name: 'Mafe', email: 'mafe@gmail.com', online: true),
-    User(uid: '3', name: 'Mario', email: 'mario@gmail.com', online: true),
-    User(uid: '4', name: 'Marcos', email: 'marcos@gmail.com', online: false),
-  ];
+  @override
+  void initState() {
+    _loadUsers();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +70,11 @@ class _UsersScreenState extends State<UsersScreen> {
 
   // for now
   void _loadUsers() async {
-    await Future.delayed(const Duration(seconds: 1));
+    final bloc = UsersBloc();
+
+    users = await bloc.getUsers();
+    setState(() {});
+
     _refreshController.refreshCompleted();
   }
 }
@@ -105,8 +110,15 @@ class _UserTile extends StatelessWidget {
         child: Text(user.name.substring(0, 2)),
         backgroundColor: Colors.blue.shade100,
       ),
+      // trailing: CircleAvatar(
+      //   radius: 5,
+      //   backgroundColor: user.online ? Colors.green : Colors.red,
+      // ),
       trailing: Chip(
-        label: Text(user.online ? 'Online' : 'Offline'),
+        label: Text(
+          user.online ? 'Online' : 'Offline',
+          style: const TextStyle(color: Colors.white),
+        ),
         backgroundColor: user.online ? Colors.green : Colors.red,
       ),
     );
