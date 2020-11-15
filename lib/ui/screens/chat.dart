@@ -2,13 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:messenger/blocs/auth_bloc.dart';
-import 'package:messenger/blocs/chat_bloc.dart';
-import 'package:messenger/blocs/socket_bloc.dart';
-import 'package:messenger/blocs/users_bloc.dart';
 
 import 'package:provider/provider.dart';
 
+import '../../blocs/auth_bloc.dart';
+import '../../blocs/chat_bloc.dart';
+import '../../blocs/socket_bloc.dart';
 import '../widgets/chat_message.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -22,6 +21,23 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   var messages = <ChatMessage>[];
+
+  @override
+  void initState() {
+    context.read<SocketBloc>().socket.on('private-message', listenToMessage);
+    super.initState();
+  }
+
+  @override
+  void deactivate() {
+    context.read<SocketBloc>().socket.off('private-message');
+    super.deactivate();
+  }
+
+  void listenToMessage(dynamic payload) {
+    final message = ChatMessage(uid: payload['from'], text: payload['message']);
+    setState(() => messages.insert(0, message));
+  }
 
   void updateMessages(ChatMessage message) {
     setState(() => messages.insert(0, message));
