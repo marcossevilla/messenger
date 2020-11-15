@@ -2,6 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:messenger/blocs/auth_bloc.dart';
+import 'package:messenger/blocs/chat_bloc.dart';
+import 'package:messenger/blocs/socket_bloc.dart';
+import 'package:messenger/blocs/users_bloc.dart';
+
+import 'package:provider/provider.dart';
 
 import '../widgets/chat_message.dart';
 
@@ -23,6 +29,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userTo = context.select((ChatBloc bloc) => bloc.userTo);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -33,17 +41,17 @@ class _ChatScreenState extends State<ChatScreen> {
         title: Column(
           children: [
             CircleAvatar(
-              child: const Text(
-                'Ma',
-                style: TextStyle(fontSize: 12),
+              child: Text(
+                userTo.name.substring(0, 2),
+                style: const TextStyle(fontSize: 12),
               ),
               maxRadius: 14,
               backgroundColor: Colors.blue.shade100,
             ),
             const SizedBox(height: 5),
-            const Text(
-              'Mario Valenzuela',
-              style: TextStyle(color: Colors.black87, fontSize: 12),
+            Text(
+              userTo.name,
+              style: const TextStyle(color: Colors.black87, fontSize: 12),
             ),
           ],
         ),
@@ -77,6 +85,7 @@ class _ChatInput extends StatefulWidget {
 }
 
 class __ChatInputState extends State<_ChatInput> {
+  bool _enableSend = false;
   final _focusNode = FocusNode();
   final _controller = TextEditingController();
 
@@ -93,27 +102,23 @@ class __ChatInputState extends State<_ChatInput> {
               child: TextField(
                 focusNode: _focusNode,
                 controller: _controller,
-                onChanged: (value) {
-                  setState(() => _controller.text = value);
-                },
+                decoration: const InputDecoration(hintText: 'Send message...'),
                 onSubmitted: (_) => _handleSubmit(),
-                decoration: const InputDecoration(
-                  hintText: 'Send message...',
+                onChanged: (_) => setState(
+                  () => _enableSend = _controller.text.trim().isNotEmpty,
                 ),
               ),
             ),
             if (Platform.isIOS || Platform.isMacOS)
               CupertinoButton(
                 child: const Text('Send'),
-                onPressed:
-                    _controller.text.trim().isNotEmpty ? _handleSubmit : null,
+                onPressed: _enableSend ? _handleSubmit : null,
               )
             else
               IconButton(
                 color: Colors.blue.shade400,
                 icon: const Icon(Icons.send),
-                onPressed:
-                    _controller.text.trim().isNotEmpty ? _handleSubmit : null,
+                onPressed: _enableSend ? _handleSubmit : null,
               ),
           ],
         ),
@@ -126,6 +131,12 @@ class __ChatInputState extends State<_ChatInput> {
 
     final newMessage = ChatMessage(uid: '123', text: _controller.text);
     widget.addMessage(newMessage);
+
+    context.read<SocketBloc>().emit('private-message', {
+      'to': context.read<ChatBloc>().userTo.uid,
+      'from': context.read<AuthBloc>().user.uid,
+      'message': _controller.text,
+    });
 
     _focusNode.requestFocus();
     _controller.clear();

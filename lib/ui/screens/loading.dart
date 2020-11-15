@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../blocs/auth_bloc.dart';
 import '../../blocs/socket_bloc.dart';
+import '../widgets/loading_indicator.dart';
 import 'login.dart';
 import 'users.dart';
 
@@ -17,14 +18,7 @@ class LoadingScreen extends StatelessWidget {
     return Scaffold(
       body: FutureBuilder(
         future: _checkLoginState(context),
-        builder: (context, snapshot) {
-          return const Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50),
-              child: LinearProgressIndicator(),
-            ),
-          );
-        },
+        builder: (_, __) => const LoadingIndicator(),
       ),
     );
   }

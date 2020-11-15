@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:messenger/blocs/socket_bloc.dart';
-import 'package:messenger/blocs/users_bloc.dart';
+import 'package:messenger/ui/screens/chat.dart';
 
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../blocs/auth_bloc.dart';
+import '../../blocs/chat_bloc.dart';
+import '../../blocs/socket_bloc.dart';
+import '../../blocs/users_bloc.dart';
 import '../../models/user.dart';
+import '../widgets/loading_indicator.dart';
 import 'login.dart';
 
 class UsersScreen extends StatefulWidget {
@@ -19,7 +22,7 @@ class UsersScreen extends StatefulWidget {
 }
 
 class _UsersScreenState extends State<UsersScreen> {
-  var users = <User>[];
+  List<User> users;
   final _refreshController = RefreshController(initialRefresh: false);
 
   @override
@@ -68,7 +71,6 @@ class _UsersScreenState extends State<UsersScreen> {
     );
   }
 
-  // for now
   void _loadUsers() async {
     final bloc = UsersBloc();
 
@@ -86,12 +88,18 @@ class _UserList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      physics: const BouncingScrollPhysics(),
-      itemCount: users.length,
-      separatorBuilder: (_, __) => const Divider(),
-      itemBuilder: (context, index) => _UserTile(user: users[index]),
-    );
+    if (users == null) {
+      return const LoadingIndicator();
+    } else if (users.isEmpty) {
+      return const Center(child: Text('No users'));
+    } else {
+      return ListView.separated(
+        physics: const BouncingScrollPhysics(),
+        itemCount: users.length,
+        separatorBuilder: (_, __) => const Divider(),
+        itemBuilder: (context, index) => _UserTile(user: users[index]),
+      );
+    }
   }
 }
 
@@ -121,6 +129,10 @@ class _UserTile extends StatelessWidget {
         ),
         backgroundColor: user.online ? Colors.green : Colors.red,
       ),
+      onTap: () async {
+        context.read<ChatBloc>().userTo = user;
+        await Navigator.of(context).push(ChatScreen.go());
+      },
     );
   }
 }

@@ -4,8 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'blocs/auth_bloc.dart';
+import 'blocs/chat_bloc.dart';
 import 'blocs/socket_bloc.dart';
-import 'ui/router.dart';
+import 'ui/router.dart' as app_router;
 
 class MessengerApp extends StatelessWidget {
   static const String name = 'Messenger';
@@ -18,11 +19,12 @@ class MessengerApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthBloc()),
         ChangeNotifierProvider(create: (_) => SocketBloc()),
+        ChangeNotifierProvider(create: (_) => ChatBloc()),
       ],
       child: MaterialApp(
         title: name,
-        initialRoute: Router.loading,
-        routes: Router.routes,
+        initialRoute: app_router.Router.loading,
+        routes: app_router.Router.routes,
         debugShowCheckedModeBanner: false,
       ),
     );
