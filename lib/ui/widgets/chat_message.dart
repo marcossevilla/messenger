@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
+import '../../blocs/auth_bloc.dart';
+
 class ChatMessage extends StatelessWidget {
   const ChatMessage({
     Key key,
@@ -12,7 +16,7 @@ class ChatMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isMe = uid == '123';
+    final isMe = uid == context.select((AuthBloc bloc) => bloc.user.uid);
 
     return Align(
       alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,

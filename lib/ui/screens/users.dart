@@ -118,10 +118,6 @@ class _UserTile extends StatelessWidget {
         child: Text(user.name.substring(0, 2)),
         backgroundColor: Colors.blue.shade100,
       ),
-      // trailing: CircleAvatar(
-      //   radius: 5,
-      //   backgroundColor: user.online ? Colors.green : Colors.red,
-      // ),
       trailing: Chip(
         label: Text(
           user.online ? 'Online' : 'Offline',

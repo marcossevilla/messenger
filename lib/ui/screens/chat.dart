@@ -24,14 +24,26 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
-    context.read<SocketBloc>().socket.on('private-message', listenToMessage);
     super.initState();
+
+    context.read<SocketBloc>().socket.on('private-message', listenToMessage);
+    loadChatHistory();
   }
 
   @override
   void deactivate() {
     context.read<SocketBloc>().socket.off('private-message');
     super.deactivate();
+  }
+
+  void loadChatHistory() async {
+    final chat = await context.read<ChatBloc>().getChat();
+
+    final history = chat.map(
+      (message) => ChatMessage(uid: message.from, text: message.message),
+    );
+
+    setState(() => messages.insertAll(0, history));
   }
 
   void listenToMessage(dynamic payload) {
@@ -145,7 +157,11 @@ class __ChatInputState extends State<_ChatInput> {
   void _handleSubmit() {
     if (_controller.text.trim().isEmpty) return;
 
-    final newMessage = ChatMessage(uid: '123', text: _controller.text);
+    final newMessage = ChatMessage(
+      uid: context.read<AuthBloc>().user.uid,
+      text: _controller.text,
+    );
+
     widget.addMessage(newMessage);
 
     context.read<SocketBloc>().emit('private-message', {
